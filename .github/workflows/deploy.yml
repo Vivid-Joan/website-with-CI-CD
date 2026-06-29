@@ -19,10 +19,10 @@ jobs:
           - name: 配置Pages
             uses: actions/configure-pages@v4
             
-          - name: 上传构建产物
-            uses: actions/upload-pages-artifact@v3
+          - name: 通过 SSH 部署到服务器
+            uses: easingthemes/ssh-deploy@main
             with:
-              path: '.'
-              
-          - name: 部署到 GitHub Pages
-            uses: actions/deploy-pages@v4
+              SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+              REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+              REMOTE_USER: ${{ secrets.REMOTE_USER }}
+              TARGET: /var/www/html
