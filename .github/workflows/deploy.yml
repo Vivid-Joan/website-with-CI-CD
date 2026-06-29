@@ -19,6 +19,11 @@ jobs:
           - name: 配置Pages
             uses: actions/configure-pages@v4
             
+          - name: 测试网络连通性
+            run: |
+              ping -c 4 ${{ secrets.REMOTE_HOST }}
+              nc -zv ${{ secrets.REMOTE_HOST }} 22
+              
           - name: 测试 SSH 连接（详细模式）
             uses: appleboy/ssh-action@v1.0.0
             with:
@@ -27,9 +32,8 @@ jobs:
               key: ${{ secrets.SERVER_SSH_KEY }}
               script: |
                 echo "✅ SSH 连接成功！"
-                uname -a
-                whoami
                 pwd
+                ls -la
                 
           - name: 通过 SSH 部署到服务器
             uses: easingthemes/ssh-deploy@main
