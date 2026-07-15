@@ -26,6 +26,10 @@ jobs:
                 echo "✅ SSH 连接成功！"
                 pwd
                 ls -la
+                if ! command -v rsync &> /dev/null; then
+                  echo "rsync 未安装，正在安装..."
+                  yum install -y rsync
+                fi
                 # 检查目标目录是否存在，不存在则创建
                 sudo mkdir -p /var/www/html
                 sudo chown -R $USER:$USER /var/www/html
